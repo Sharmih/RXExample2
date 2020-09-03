@@ -1,4 +1,4 @@
-package com.example.rxexample.model.api;
+package com.example.rxexample2.model.api;
 
 import java.io.IOException;
 

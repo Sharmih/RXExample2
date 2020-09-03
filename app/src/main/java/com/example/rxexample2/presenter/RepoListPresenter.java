@@ -1,9 +1,9 @@
-package com.example.rxexample.presenter;
+package com.example.rxexample2.presenter;
 
-import com.example.rxexample.model.Model;
-import com.example.rxexample.model.ModelImpl;
-import com.example.rxexample.model.data.Repo;
-import com.example.rxexample.view.IView;
+import com.example.rxexample2.model.Model;
+import com.example.rxexample2.model.ModelImpl;
+import com.example.rxexample2.model.data.Repo;
+import com.example.rxexample2.view.IView;
 
 import java.util.List;
 

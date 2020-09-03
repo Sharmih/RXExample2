@@ -1,6 +1,6 @@
-package com.example.rxexample.view;
+package com.example.rxexample2.view;
 
-import com.example.rxexample.model.data.Repo;
+import com.example.rxexample2.model.data.Repo;
 
 import java.util.List;
 

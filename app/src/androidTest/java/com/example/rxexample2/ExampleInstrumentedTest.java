@@ -1,4 +1,4 @@
-package com.example.rxexample;
+package com.example.rxexample2;
 
 import android.content.Context;
 
