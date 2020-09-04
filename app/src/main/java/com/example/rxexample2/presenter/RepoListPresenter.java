@@ -1,48 +1,72 @@
 package com.example.rxexample2.presenter;
 
-import com.example.rxexample2.model.Model;
-import com.example.rxexample2.model.ModelImpl;
-import com.example.rxexample2.model.data.Repo;
-import com.example.rxexample2.view.IView;
-
 import java.util.List;
 
-import io.reactivex.rxjava3.disposables.Disposable;
+public class RepoListPresenter extends BasePresenter {
 
-public class RepoListPresenter implements Presenter {
+    private static final String BUNDLE_REPO_LIST_KEY = "BUNDLE_REPO_LIST_KEY";
 
-    private Model model = new ModelImpl();
+    private RepoListView view;
 
-    private IView view;
-    private Disposable disposable = Disposable.empty();
+    private RepoListMapper repoListMapper = new RepoListMapper();
 
-    public RepoListPresenter(IView view) {
+    private List<Repository> repoList;
+
+    public RepoListPresenter(RepoListView view) {
         this.view = view;
     }
 
-    @Override
     public void onSearchButtonClick() {
+        String name = view.getUserName();
+        if (TextUtils.isEmpty(name)) return;
 
-        if (!disposable.isDisposed()) {
-            disposable.dispose();
-        }
+        Subscription subscription = dataRepository.getRepoList(name)
+                .map(repoListMapper)
+                .subscribe(new Observer<List<Repository>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
-        disposable = model.getRepoList(view.getUserName())
-                .subscribe((List<Repo> data) -> {
-                    if (data != null && !data.isEmpty()) {
-                        view.showData(data);
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<Repository> list) {
+                        if (list != null && !list.isEmpty()) {
+                            repoList = list;
+                            view.showRepoList(list);
                         } else {
-                        view.showEmptyList();
+                            view.showEmptyList();
                         }
-                }, throwable -> {
-                    view.showError(throwable.getMessage());
+                    }
                 });
+        addSubscription(subscription);
     }
 
-    @Override
-    public void onStop() {
-        if (!disposable.isDisposed()) {
-            disposable.dispose();
+    public void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            repoList = (List<Repository>) savedInstanceState.getSerializable(BUNDLE_REPO_LIST_KEY);
+        }
+
+        if (!isRepoListEmpty()) {
+            view.showRepoList(repoList);
         }
     }
+
+    private boolean isRepoListEmpty() {
+        return repoList == null || repoList.isEmpty();
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        if (!isRepoListEmpty()) {
+            outState.putSerializable(BUNDLE_REPO_LIST_KEY, new ArrayList<>(repoList));
+        }
+    }
+
+    public void clickRepo(Repository repository) {
+        view.startRepoInfoFragment(repository);
+    }
+
 }

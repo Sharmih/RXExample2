@@ -7,20 +7,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.rxexample2.R;
 import com.example.rxexample2.databinding.ActivityMainBinding;
-import com.example.rxexample2.model.data.Repo;
+import com.example.rxexample2.model.dto.RepositoryDTO;
 import com.example.rxexample2.presenter.Presenter;
 import com.example.rxexample2.presenter.RepoListPresenter;
-import com.example.rxexample2.view.adapters.RecyclerViewAdapter;
+import com.example.rxexample2.view.adapters.RepoListAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IView {
 
-    private RecyclerViewAdapter adapter;
+    private RepoListAdapter adapter;
 
     private Presenter presenter;
-    private ActivityMainBinding binding;
+        private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements IView {
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         binding.recyclerView.setLayoutManager(llm);
-        adapter = new RecyclerViewAdapter();
+        adapter = new RepoListAdapter();
         binding.recyclerView.setAdapter(adapter);
 
         binding.button.setOnClickListener(new android.view.View.OnClickListener() {
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements IView {
     }
 
     @Override
-    public void showData(List<Repo> list) {
+    public void showData(List<RepositoryDTO> list) {
         adapter.setRepoList(list);
     }
 

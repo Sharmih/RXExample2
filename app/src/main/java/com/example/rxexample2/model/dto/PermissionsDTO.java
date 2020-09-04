@@ -1,9 +1,9 @@
-package com.example.rxexample2.model.data;
+package com.example.rxexample2.model.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Permissions {
+public class PermissionsDTO {
 
     @SerializedName("admin")
     @Expose
